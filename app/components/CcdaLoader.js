@@ -20,7 +20,6 @@ class CcdaLoader extends React.Component {
   render() {
     let ccdaSummary;
     const bbCcdaObj = this.props.store.get().bbCcdaObj;
-    debugger;
     if(!isEmpty(bbCcdaObj)) {
       ccdaSummary = bbCcdaObj.data.document.title + ' - ' + bbCcdaObj.data.demographics.name.family + ', ' + bbCcdaObj.data.demographics.name.given[0];
     } else {
