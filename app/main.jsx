@@ -5,6 +5,7 @@ import App from './components/App.jsx';
 
 // load individual apps
 import RawJsonViewer from './navigator_apps/RawJsonViewer/main.js';
+import Timeline from './navigator_apps/Timeline/main.js';
 
 let store = new Freezer({
   bbCcdas: [],
@@ -18,10 +19,19 @@ let store = new Freezer({
     },
     {
       'name': 'Timeline',
-      'key': 'timeline'
+      'key': 'timeline',
+      'appEntryClass': Timeline
+    },
+    {
+      'name': 'Metrics',
+      'key': 'metrics'
     },
   ],
-  currentAppKey: 'rawJsonViewier'
+  selectedApp: {
+    'name': 'Raw JSON Viewer',
+    'key': 'rawJsonViewier',
+    'appEntryClass': RawJsonViewer
+  }
 });
 
 store.on('ccda:load', (bbCcdaObj) => {

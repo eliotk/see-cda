@@ -3,7 +3,7 @@ import { Nav, NavItem } from 'react-bootstrap';
 
 export default React.createClass({
   getInitialState: function() {
-    return {activeKey: this.props.store.get().currentApp};
+    return {activeKey: this.props.store.get().selectedApp.key};
   },
 
   handleSelect(selectedKey) {
