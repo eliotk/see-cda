@@ -18,24 +18,13 @@ class CcdaLoader extends React.Component {
   }
 
   render() {
-    let ccdaSummary;
-    const bbCcdaObj = this.props.store.get().bbCcdaObj;
-    if(!isEmpty(bbCcdaObj)) {
-      ccdaSummary = bbCcdaObj.data.document.title + ' - ' + bbCcdaObj.data.demographics.name.family + ', ' + bbCcdaObj.data.demographics.name.given[0];
-    } else {
-      ccdaSummary = 'Nothing loaded';
-    };
     return(
       <div style={{display: 'flex'}}>
         <form style={{width: '400px'}}>
-          <Input type="textarea" label="CCDA XML String" placeholder="Paste CCDA file contents here" ref="ccdaStringInput" />
+          <Input type="textarea" label="CCDA XML String" placeholder="Paste CCDA file contents here" ref="ccdaStringInput" style={{height: '200px'}} />
           <Input type="file" label="File" help="Or select a file" />
           <Button bsStyle="primary" onClick={this.loadCcda.bind(this)}>Load</Button>
         </form>
-        <Well style={{marginLeft: '20px', width: '100%'}}>
-          <h4>Current CCDA</h4>
-          <p>{ccdaSummary}</p>
-        </Well>
       </div>
     )
   }

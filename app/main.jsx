@@ -4,6 +4,7 @@ import Freezer from 'freezer-js';
 import App from './components/App.jsx';
 
 // load individual apps
+import CcdaLoader from './navigator_apps/CcdaLoader/main.js';
 import RawJsonViewer from './navigator_apps/RawJsonViewer/main.js';
 import Timeline from './navigator_apps/Timeline/main.js';
 
@@ -12,6 +13,11 @@ let store = new Freezer({
   activeCcdas: {},
   bbCcdaObj: {},
   apps: [
+    {
+      'name': 'Document Loader',
+      'key': 'ccdaLoader',
+      'appEntryClass': CcdaLoader
+    },
     {
       'name': 'Raw JSON Viewer',
       'key': 'rawJsonViewier',
@@ -23,25 +29,22 @@ let store = new Freezer({
       'appEntryClass': Timeline
     },
     {
-      'name': 'Metrics',
+      'name': 'Result Trends',
       'key': 'metrics'
     },
   ],
-  selectedApp: {
-    'name': 'Raw JSON Viewer',
-    'key': 'rawJsonViewier',
-    'appEntryClass': RawJsonViewer
-  }
 });
+store.get().set( 'selectedApp', store.get().apps[0] );
+
+if (localStorage.getItem('bbCcdaObj')) {
+  store.get().bbCcdaObj.set({ data: JSON.parse(localStorage.getItem('bbCcdaObj')) });
+}
 
 store.on('ccda:load', (bbCcdaObj) => {
   store.get().bbCcdaObj.set( bbCcdaObj );
-  console.log(bbCcdaObj);
-  // console.log(notification);
-  // this.setState({ notification });
-  // setTimeout(() => {
-  //   this.setState({ notification: '' });
-  // }, 3000);
+
+  // save in local storage
+  localStorage.setItem('bbCcdaObj', JSON.stringify( bbCcdaObj.data ));
 });
 
 store.on('app:selected', (appKey) => {

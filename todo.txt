@@ -1,2 +1,9 @@
-* convert ccda xml string to bluebutton js
-* 
+* drag timeline, update selected in time range
+* reset all filers in timeline
+* disable mouse based zoom in timeline [x]
+* clicking off brush chart should restore original timeline date span [x]
+* remove y axis label on timeline brush [x]
+* test timeline w/ other ccdas [x]
+* supporting showing multiple ccda at same time?
+* add ability to show/hide timeline groups [x]
+* convert ccda xml string to bluebutton js [x]
