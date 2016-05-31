@@ -19,19 +19,19 @@ let store = new Freezer({
       'appEntryClass': CcdaLoader
     },
     {
-      'name': 'Raw JSON Viewer',
-      'key': 'rawJsonViewier',
-      'appEntryClass': RawJsonViewer
-    },
-    {
       'name': 'Timeline',
       'key': 'timeline',
       'appEntryClass': Timeline
     },
     {
-      'name': 'Result Trends',
-      'key': 'metrics'
-    },
+      'name': 'Raw JSON Viewer',
+      'key': 'rawJsonViewier',
+      'appEntryClass': RawJsonViewer
+    }
+    // {
+    //   'name': 'Result Trends',
+    //   'key': 'metrics'
+    // },
   ],
 });
 store.get().set( 'selectedApp', store.get().apps[0] );

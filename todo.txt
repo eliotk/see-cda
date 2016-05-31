@@ -1,5 +1,12 @@
+* being able to load in sample ccdas from ui
+* click/hover to show document info in above
+* cluster set spike?
+* question marks on tabs to view description
+* search in timline events
+* finish display of events
+* update brush chart when groups/filters change
 * drag timeline, update selected in time range
-* reset all filers in timeline
+* reset all filters in timeline
 * disable mouse based zoom in timeline [x]
 * clicking off brush chart should restore original timeline date span [x]
 * remove y axis label on timeline brush [x]
@@ -7,3 +14,6 @@
 * supporting showing multiple ccda at same time?
 * add ability to show/hide timeline groups [x]
 * convert ccda xml string to bluebutton js [x]
+* add alergies section?
+* add immunizations? [x]
+* add functional status?

@@ -2,17 +2,17 @@
 <?xml-stylesheet type="text/xsl" href="CDA.xsl"?>
 <!--
  Title:        Continuity of Care Document (CCD)
- Filename:     C-CDA_R2.1_CCD.xml 
+ Filename:     C-CDA_R2.1_CCD.xml
  Created by:   Lantana Consulting Group, LLC
- Updated: C-CDA R2.1 editing team 
- 
+ Updated: C-CDA R2.1 editing team
+
  $LastChangedDate: 2015-8-11 11:25:09 -0400 (Wed, 11 Aug 2015) $
-  
+
  ********************************************************
- Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD). 
- The file depicts a fictional character's health data. Any resemblance to a real person is coincidental. 
- To illustrate as many data elements as possible, the clinical scenario may not be plausible. 
- The data in this sample file is not intended to represent real patients, people or clinical events. 
+ Disclaimer: This sample file contains representative data elements to represent a Continuity of Care Document (CCD).
+ The file depicts a fictional character's health data. Any resemblance to a real person is coincidental.
+ To illustrate as many data elements as possible, the clinical scenario may not be plausible.
+ The data in this sample file is not intended to represent real patients, people or clinical events.
  This sample is designed to be used in conjunction with the C-CDA Clinical Notes Implementation Guide.
  ********************************************************
  -->
@@ -59,7 +59,7 @@
 				<birthTime value="19750501"/>
 				<maritalStatusCode code="M" displayName="Married" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatusCode"/>
 				<religiousAffiliationCode code="1013" displayName="Christian (non-Catholic, non-specific)" codeSystem="2.16.840.1.113883.5.1076" codeSystemName="HL7 Religious Affiliation"/>
-				<!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity 
+				<!-- CDC Race and Ethnicity code set contains the five minimum race and ethnicity
 					categories defined by OMB Standards -->
 				<raceCode code="2106-3" displayName="White" codeSystem="2.16.840.1.113883.6.238" codeSystemName="Race &amp; Ethnicity - CDC"/>
 				<!-- The raceCode extension is only used if raceCode is valued -->
@@ -417,14 +417,14 @@
 	</participant>
 	<documentationOf>
 		<serviceEvent classCode="PCPR">
-			<!-- The effectiveTime reflects the provision of care summarized in the document. 
+			<!-- The effectiveTime reflects the provision of care summarized in the document.
 				In this scenario, the provision of care summarized is the lifetime for the patient -->
 			<effectiveTime>
 				<low value="19750501"/>
-				<!-- The low value represents when the summarized provision of care began. 
+				<!-- The low value represents when the summarized provision of care began.
 					In this scenario, the patient's date of birth -->
 				<high value="20130815"/>
-				<!-- The high value represents when the summarized provision of care being ended. 
+				<!-- The high value represents when the summarized provision of care being ended.
 					In this scenario, when chart summary was created -->
 			</effectiveTime>
 			<performer typeCode="PRF">
@@ -699,7 +699,7 @@
 									<entryRelationship typeCode="SUBJ" inversionInd="true">
 										<observation classCode="OBS" moodCode="EVN">
 											<!-- ** Severity Observation  (V2)** -->
-											<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
+											<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
                         When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
 											<templateId root="2.16.840.1.113883.10.20.22.4.8" extension="2014-06-09"/>
 											<templateId root="2.16.840.1.113883.10.20.22.4.8"/>
@@ -730,7 +730,7 @@
 											<entryRelationship typeCode="SUBJ" inversionInd="true">
 												<observation classCode="OBS" moodCode="EVN">
 													<!-- ** Severity observation ** -->
-													<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
+													<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
 														 When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
 													<templateId root="2.16.840.1.113883.10.20.22.4.8" extension="2014-06-09"/>
 													<templateId root="2.16.840.1.113883.10.20.22.4.8"/>
@@ -821,7 +821,7 @@
 											<entryRelationship typeCode="SUBJ" inversionInd="true">
 												<observation classCode="OBS" moodCode="EVN">
 													<!-- ** Severity observation ** -->
-													<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
+													<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
 										             When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
 													<templateId root="2.16.840.1.113883.10.20.22.4.8" extension="2014-06-09"/>
 													<templateId root="2.16.840.1.113883.10.20.22.4.8"/>
@@ -838,7 +838,7 @@
 									<entryRelationship typeCode="SUBJ" inversionInd="true">
 										<observation classCode="OBS" moodCode="EVN">
 											<!-- ** Severity observation ** -->
-											<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy. 
+											<!-- When the Severity Observation is associated directly with an allergy it characterizes the allergy.
 										          When the Severity Observation is associated with a Reaction Observation it characterizes a Reaction. -->
 											<templateId root="2.16.840.1.113883.10.20.22.4.8" extension="2014-06-09"/>
 											<templateId root="2.16.840.1.113883.10.20.22.4.8"/>
@@ -933,7 +933,7 @@
 									<id root="db734647-fc99-424c-a864-7e3cda82e703" extension="45665"/>
 									<!-- code is required; MAY be selected from ValueSet Problem Type (LOINC) urn:oid:2.16.840.1.113883.3.88.12.3221.7.2 STATIC 2014-09-02 (CONF:1098-31229) -->
 									<code code="404684003" displayName="Finding" codeSystemName="SNOMED-CT" codeSystem="2.16.840.1.113883.6.96">
-										<!--  of course this MAY be present 
+										<!--  of course this MAY be present
 										<translation code="75321-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical finding"/>
 										-->
 									</code>
@@ -2094,7 +2094,7 @@
 									<id root="3e676a50-7aac-11db-9fe1-0800200c9a66"/>
 									<!-- 5.	SHALL contain exactly one [1..1] code, which SHOULD be selected from ValueSet Health Insurance Type -->
 									<code>
-										<!-- a.	This code SHALL contain at least one [1..*] translation, which SHOULD be selected from ValueSet Payer urn:oid:2.16.840.1.114222.4.11.3591 (CONF:1198-32852). 
+										<!-- a.	This code SHALL contain at least one [1..*] translation, which SHOULD be selected from ValueSet Payer urn:oid:2.16.840.1.114222.4.11.3591 (CONF:1198-32852).
 										<translation code="81" displayName="self-pay" codeSystemName="Source of Payment Typology (PHDSC)" codeSystem="2.16.840.1.113883.3.221.5"/>
 										-->
 										<translation nullFlavor="NI"/>
@@ -2204,9 +2204,9 @@
 											</entryRelationship>
 										</act>
 									</entryRelationship>
-									<!-- The above entryRelationship OR the following. <entryRelationship 
-										typeCode="REFR"> <act classCode="ACT" moodCode="DEF"> <id root="f4dce790-8328-11db-9fe1-0800200c9a66"/> 
-										<code nullFlavor="UNK"/> <text>Health Plan Name<reference value="PntrToHealthPlanNameInSectionText"/> 
+									<!-- The above entryRelationship OR the following. <entryRelationship
+										typeCode="REFR"> <act classCode="ACT" moodCode="DEF"> <id root="f4dce790-8328-11db-9fe1-0800200c9a66"/>
+										<code nullFlavor="UNK"/> <text>Health Plan Name<reference value="PntrToHealthPlanNameInSectionText"/>
 										</text> <statusCode code="active"/> </act> </entryRelationship> -->
 								</act>
 							</entryRelationship>
@@ -2271,7 +2271,7 @@
 								Author Participation Template
 								In this case, the author is the same as a participant already
 								described in the header.
-								However, the author could be a different provider - someone else in the 
+								However, the author could be a different provider - someone else in the
 								header, or a new provider not elsewhere specified.
 							-->
 							<author typeCode="AUT">
@@ -2292,7 +2292,7 @@
 									<statusCode code="active"/>
 									<entryRelationship typeCode="COMP">
 										<act classCode="ACT" moodCode="INT">
-											<!-- These act/identifiers are unique identifiers 
+											<!-- These act/identifiers are unique identifiers
 												for the policy or program providing the coverage. -->
 											<id root="4c9a3be1-5f09-46dd-88e7-14c8ec612e4c"/>
 											<code code="111" displayName="Medicare HMO" codeSystemName="Source of Payment Typology (PHDSC)" codeSystem="2.16.840.1.113883.3.221.5"/>

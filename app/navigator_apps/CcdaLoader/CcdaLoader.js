@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Panel, Well } from 'react-bootstrap';
+import { Input, Button, Panel, Well, ButtonGroup } from 'react-bootstrap';
 import BlueButton from 'bluebutton';
 import isEmpty from 'lodash/isEmpty';
 
@@ -7,24 +7,76 @@ class CcdaLoader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ccdaStringInput: ''
+      ccdaStringInput: '',
+      sampleCcdas: [
+        {
+          description: 'Community Health and Hospitals: Health Summary - Jones, Myra',
+          file: 'sample_ccdas/myra_jones.xml'
+        },
+        {
+          description: 'Mayo Clinic Outpatient Summary-Prelim Rochester Minnesota - BLUE, Test (Many Events)',
+          file: 'sample_ccdas/mayo_many_events.xml'
+        },
+        {
+          description: 'Patient Chart Summary - Betterhalf, Eve',
+          file: 'sample_ccdas/C-CDA_R2-1_CCD.xml'
+        },
+        {
+          description: 'Summary of Care - Everyman, Adam',
+          file: 'sample_ccdas/Final_Task_Force_Full_Sample_R1.1.xml'
+        }
+      ]
     };
   }
 
-  loadCcda() {
-    const ccdaString = this.refs.ccdaStringInput.refs.input.value;
-    const bbCcdaObj = BlueButton(ccdaString);
-    this.props.store.trigger('ccda:load', bbCcdaObj);
-  }
+  submitCcda() {
+    let ccdaString = this.refs.ccdaStringInput.refs.input.value;
+
+    loadCcda(ccdaString);
+  };
+
+  loadCcda(ccdaString) {
+    // replace v2 ccda w/ v1 documnet code or else bluebuttonjs blows up
+    ccdaString = ccdaString.replace('2.16.840.1.113883.10.20.22.1.2', '2.16.840.1.113883.10.20.22.1.1');
+
+    try {
+      const bbCcdaObj = BlueButton(ccdaString);
+      this.props.store.trigger('ccda:load', bbCcdaObj);
+    } catch (e) {
+      console.error(e.message);
+      // trigger alert
+    };
+  };
+
+  loadSampleCcda(event) {
+    const ccdaKey = event.target.getAttribute('data-key');
+    const selectedCcda = this.state.sampleCcdas[ccdaKey];
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('get', './' + selectedCcda.file, false);
+    xhr.send();
+
+    this.loadCcda(xhr.responseText);
+  };
 
   render() {
+    const sampleCcdaButtons = this.state.sampleCcdas.map((ccda, key) => {
+      return <Button data-key={key} onClick={this.loadSampleCcda.bind(this)}>{ccda.description}</Button>;
+    });
+
     return(
       <div style={{display: 'flex'}}>
-        <form style={{width: '400px'}}>
+        <form style={{width: '400px', borderRight: '1px solid #DDDDDD', paddingRight: '20px', marginRight: '20px'}}>
           <Input type="textarea" label="CCDA XML String" placeholder="Paste CCDA file contents here" ref="ccdaStringInput" style={{height: '200px'}} />
           <Input type="file" label="File" help="Or select a file" />
-          <Button bsStyle="primary" onClick={this.loadCcda.bind(this)}>Load</Button>
+          <Button bsStyle="primary" onClick={this.submitCcda.bind(this)}>Load</Button>
         </form>
+        <div>
+          <h5><strong>Or load an existing C-CDA</strong></h5>
+          <ButtonGroup vertical block>
+            {sampleCcdaButtons}
+          </ButtonGroup>
+        </div>
       </div>
     )
   }

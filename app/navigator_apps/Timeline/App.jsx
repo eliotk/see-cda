@@ -1,12 +1,15 @@
 import React from 'react';
 import vis from 'vis';
 import visCss from 'vis/dist/vis.min.css';
+import visOverflowCss from './overflow-event-text.css';
 import isEmpty from 'lodash/isEmpty';
 import Filters from './Filters.js';
 import { Grid, Row, Col, Modal, Button } from 'react-bootstrap';
 import Freezer from 'freezer-js';
 import Plottable from 'plottable';
 import plottableCss from 'plottable/plottable.css';
+import { generateVisEvents, generateVisGroups } from './utils.js';
+import lunr from 'lunr';
 
 let timelineStore = new Freezer({
   filters: {},
@@ -28,22 +31,45 @@ class App extends React.Component {
       ccdaPresent: false,
       visEvents: [],
       visGroups: {},
-      showEventDetailModal: false,
-      eventDetails: {
-        content: ''
-      }
+      eventDetails: {}
     };
 
     if( !isEmpty(bbCcdaObj) ) {
-      this.state.ccdaPresent = true;
-      this.state.visEvents = this.generateVisEvents(bbCcdaObj);
+      let eventDataSet = new vis.DataSet({});
 
-      this.state.visGroups = this.generateVisGroups(this.state.visEvents);
+      this.state.ccdaPresent = true;
+      this.state.visEvents = generateVisEvents(bbCcdaObj);
+
+      eventDataSet.add(this.state.visEvents);
+      this.state.eventDataSet = eventDataSet;
+
+      this.state.searchIndex = this.buildSearchIndex();
+
+      this.state.visGroups = generateVisGroups(this.state.visEvents);
       timelineStore.get().set('visGroups', this.state.visGroups)
 
       this.updateVisEventsWithGroupId();
     }
   }
+
+  buildSearchIndex() {
+    let idx = lunr(function () {
+      this.field('content', { boost: 10 })
+      this.field('group_name')
+      this.field('product.code')
+      this.field('code')
+    });
+
+    this.state.visEvents.map((event, key) => {
+      if(!event.id) {
+        event.id = key;
+      };
+
+      idx.add(event);
+    });
+
+    return idx;
+  };
 
   updateVisEventsWithGroupId() {
     const updatedVisEvents = this.state.visEvents.map((event) => {
@@ -58,82 +84,6 @@ class App extends React.Component {
 
     this.state.visEvents = updatedVisEvents;
   }
-
-  generateVisEvents(bbCcdaObj) {
-    var encounterEvents = bbCcdaObj.data.encounters.filter(function(encounter) {
-      encounter.start = encounter.date;
-      encounter.group_name = 'Encounters';
-      encounter.content = encounter.name;
-
-      if(encounter.date) {
-        return encounter;
-      };
-    });
-
-    var immunizationEvents = bbCcdaObj.data.immunizations.filter(function(immunization) {
-      immunization.content = immunization.product.name;
-      immunization.start = immunization.date;
-      immunization.group_name = 'Immunizations';
-
-      if(immunization.conten) {
-        return immunization;
-      }
-    });
-
-    var medicationEvents = bbCcdaObj.data.medications.filter(function(item) {
-      item.content = item.product.name;
-      item.start = item.date_range.start;
-      item.end = item.date_range.end;
-      item.group_name = 'Medications';
-
-      if(item.start) {
-        return item;
-      };
-    });
-
-    var problemEvents = bbCcdaObj.data.problems.map(function(item) {
-      item.content = item.name;
-      item.start = item.date_range.start;
-      item.end = item.date_range.end;
-      item.group_name = 'Problems';
-      return item;
-    });
-
-    var procedureEvents = bbCcdaObj.data.procedures.filter(function(item) {
-      item.content = item.name;
-      item.start = item.date;
-      item.group_name = 'Procedures';
-
-      if(item.start) {
-        return item;
-      };
-    });
-
-    return encounterEvents.concat(immunizationEvents).concat(medicationEvents).concat(problemEvents).concat(procedureEvents);
-  }
-
-  generateVisGroups(visEvents) {
-    let unique = {};
-    let distinct = [];
-
-    visEvents.map((event, idx) => {
-      if(event.start == null) {
-        console.log(event);
-      }
-
-      if(event.content == null) {
-        console.log(event);
-      }
-
-
-      if( typeof(unique[event.group_name]) == "undefined" && typeof event.group_name !== "undefined"){
-        distinct.push({ id: parseInt(idx), content:event.group_name });
-      }
-      unique[event.group_name] = 0;
-    });
-
-    return distinct;
-  };
 
   renderDragChart() {
     var xScale = new Plottable.Scales.Time();
@@ -159,10 +109,10 @@ class App extends React.Component {
       .y(function(d) { return d.y; }, yScale)
       .addDataset(new Plottable.Dataset(data));
 
-
     plot.attr('width', 2);
 
     var dragbox = new Plottable.Components.XDragBoxLayer();
+    dragbox.movable(true);
 
     dragbox.onDrag((box) => {
       plot.selections().attr("fill", "#5279c7");
@@ -195,6 +145,13 @@ class App extends React.Component {
     // window.addEventListener("resize", function () {
     //   plot.redraw();
     // });
+
+    this.setState({
+      brushChart: {
+        dragbox: dragbox,
+        xScale: xScale
+      }
+    });
   }
 
   timelineSelected() {
@@ -204,49 +161,49 @@ class App extends React.Component {
                           .get(this.state.timeline.getSelection()[0]);
 
     this.setState({
-      showEventDetailModal: true,
-      eventDetails: eventDetails
+      eventDetails
     });
   };
 
-  componentDidMount() {
-    timelineStore.on('update', ()=> { this.forceUpdate() });
-    const timelineOptions = {
-      zoomKey: 'altKey'
+  timelineClicked() {
+    if (this.state.timeline.getSelection() < 1) {
+      this.setState({
+        eventDetails: {}
+      });
     };
+  }
 
-    this.state.visEvents.map((event) => {
-    });
+  timelineRangeChange(rangeProperties) {
+    if(rangeProperties.byUser == true) {
+      const xMin = this.state.brushChart.xScale.scale(rangeProperties.start);
+      const xMax = this.state.brushChart.xScale.scale(rangeProperties.end);
+      this.state.brushChart.dragbox.bounds({
+        topLeft: { x: xMin, y: 0 },
+        bottomRight: { x: xMax, y: 0 }
+      });
+    };
+  }
+
+  componentDidMount() {
+    const timelineOptions = {
+      zoomKey: 'altKey',
+      zoomMin: 172800000
+    };
+    console.log(this.state.visEvents);
 
     let timeline = new vis.Timeline(document.getElementById('timeline-container'), this.state.visEvents, this.state.visGroups, timelineOptions);
     timeline.on('select', this.timelineSelected.bind(this));
+    timeline.on('click', this.timelineClicked.bind(this));
+    timeline.on('rangechange', this.timelineRangeChange.bind(this));
 
-    this.setState({ timeline: timeline });
-      // console.log(this.itemsData.get(this.getSelection()[0]));
-      // this.setState({showEventDetailModal: true});
-      // console.log(this.itemSet.getItems().get(properties.items[0]));
-      // var additional_info_text, item;
-      // item = items.get(properties.items[0]);
-      // additional_info_text = JSON.stringify(item, null, 2);
-    // });
-
-    // need to add timeline event handlers here
-    // timeline.on('select', function(properties) {
-    //   var additional_info_text, item;
-    //   item = items.get(properties.items[0]);
-    //   additional_info_text = JSON.stringify(item, null, 2);
-    //   document.querySelector('#additional_info').style.display = "block";
-    //   document.querySelector('#additional_info_text').innerHTML = additional_info_text;
-    // });
-    //
-    // timeline.on('click', function(properties) {
-    //   console.log(this.getSelection());
-    //   if (this.getSelection().length < 1) {
-    //    document.querySelector('#additional_info').style.display = "none";
-    //   }
-    // });
+    this.setState({
+      timeline: timeline,
+      eventDataSet: timeline.itemsData
+    });
 
     this.renderDragChart();
+
+    timelineStore.on('update', ()=> { this.forceUpdate() });
   }
 
   componentWillUpdate() {
@@ -263,12 +220,6 @@ class App extends React.Component {
     debugger;
   }
 
-  hideEventDetailModal() {
-    this.setState({
-      showEventDetailModal: false
-    });
-  }
-
   render() {
     let warningText;
     if (!this.state.ccdaPresent) {
@@ -278,31 +229,19 @@ class App extends React.Component {
     return(
       <div>
         <h4>{warningText}</h4>
-        <Modal
-          {...this.props}
-          show={this.state.showEventDetailModal}
-          dialogClassName="custom-modal"
-          animation={false}
-          keyboard={true}
-          onHide={this.hideEventDetailModal.bind(this)}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-lg">Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>{this.state.eventDetails.content}</h4>
-            {JSON.stringify(this.state.eventDetails)}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.hideEventDetailModal.bind(this)}>Close</Button>
-          </Modal.Footer>
-        </Modal>
         <Grid fluid={true} style={{width: '100%', paddingLeft: '0px', paddingRight: '0px'}}>
           <Row>
             <Col xs={12} md={9}>
               <div id="timeline-container"></div>
             </Col>
-            <Col xs={6} md={3}><Filters visGroups={this.state.visGroups} timelineStore={timelineStore} /></Col>
+            <Col xs={6} md={3}>
+            <Filters
+              visGroups={this.state.visGroups}
+              timelineStore={timelineStore}
+              eventDetails={this.state.eventDetails}
+              timeline={this.state.timeline}
+              searchIndex={this.state.searchIndex}
+              eventDataSet={this.state.eventDataSet} /></Col>
           </Row>
         </Grid>
       </div>
