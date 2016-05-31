@@ -4,7 +4,14 @@ A JS app featuring a timeline view w/ the goal of surfacing patterns and providi
 
 Built to be extensible and easily add new views.
 
+Demo: http://eliotk.github.io/see-cda
+
 ## Development
+
+### Install
+
+* Use a mininum of node version 4.*
+* `npm install`
 
 To start the dev server:
 
