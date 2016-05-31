@@ -8,14 +8,9 @@ Demo: http://eliotk.github.io/see-cda
 
 ## Development
 
-### Install
-
 * Use a mininum of node version 4.*
 * `npm install`
-
-To start the dev server:
-
-`webpack-dev-server --inline`
+* `webpack-dev-server --inline`
 
 To update the demo in gh-pages:
 
