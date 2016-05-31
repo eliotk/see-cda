@@ -1,8 +1,8 @@
 # see-cda
 
-A JS framework for viewing C-CDA data in different ways.
+A JS app featuring a timeline w/ the goal of surfacing useful narrative-like information from CDA document data.
 
-Built to be extensible and easily add new "views".
+Built to be extensible and easily add new views.
 
 ## Development
 
