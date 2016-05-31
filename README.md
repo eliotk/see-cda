@@ -1,8 +1,8 @@
 # see-cda
 
-An JS framework for viewing C-CDA data in different ways.
+A JS framework for viewing C-CDA data in different ways.
 
-Built to be extensible and to be able to easily add new "views".
+Built to be extensible and easily add new "views".
 
 ## Development
 
