@@ -1,6 +1,6 @@
 # see-cda
 
-A JS app featuring a timeline w/ the goal of surfacing useful narrative-like information from CDA document data.
+A JS app featuring a timeline view w/ the goal of surfacing patterns and providing tools to explore patient health information from CDA document data.
 
 Built to be extensible and easily add new views.
 
