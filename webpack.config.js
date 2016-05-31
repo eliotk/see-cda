@@ -5,7 +5,7 @@ module.exports = {
   },
   output: {
     libraryTarget: 'umd',
-    filename: "./bundle.js"
+    filename: "./dist/see-cda.js"
   },
   module: {
     loaders: [
