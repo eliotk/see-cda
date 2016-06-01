@@ -1,6 +1,6 @@
 import React from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
-import Tooltip from 'rc-tooltip';
+import { Nav, NavItem, OverlayTrigger, Popover, Button } from 'react-bootstrap';
+import isEmpty from 'lodash/isEmpty';
 
 export default React.createClass({
   getInitialState: function() {
@@ -17,10 +17,25 @@ export default React.createClass({
 
     return (
       <Nav bsStyle="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
-        {this.props.apps.map(function (app, idx) {
-          const tooltip = <Tooltip placement="left" trigger={['click']} overlay={<span>tooltip</span>}>?</Tooltip>;
+        {this.props.apps.map((app, idx) => {
+          const disabled = app.requiresData ? isEmpty(this.props.store.get().bbCcdaObj.toJS()) : false;
 
-          return <NavItem key={idx} eventKey={app.key}>{app.name}</NavItem>;
+          const popover = (<Popover
+                            id="{app.name + 'Popover'}">
+                            {app.description}
+                          </Popover>);
+
+          const overlay = (<div>
+                            <span>{app.name} </span>
+                            <OverlayTrigger
+                              trigger="hover"
+                              placement="bottom"
+                              overlay={popover}>
+                              <span>(?)</span>
+                            </OverlayTrigger>
+                          </div>);
+
+          return <NavItem key={idx} eventKey={app.key} disabled={disabled}>{overlay}</NavItem>;
         })}
       </Nav>
     );

@@ -16,17 +16,23 @@ let store = new Freezer({
     {
       'name': 'Document Loader',
       'key': 'ccdaLoader',
-      'appEntryClass': CcdaLoader
+      'appEntryClass': CcdaLoader,
+      'requiresData': false,
+      'description': 'Load in new C-CDA documents'
     },
     {
       'name': 'Timeline',
       'key': 'timeline',
-      'appEntryClass': Timeline
+      'appEntryClass': Timeline,
+      'requiresData': true,
+      'description': "Explore a timeline of the C-CDA data. You can use ALT+Scroll to zoom in and out of timeline. Click on events to show more details."
     },
     {
       'name': 'Raw JSON Viewer',
       'key': 'rawJsonViewier',
-      'appEntryClass': RawJsonViewer
+      'appEntryClass': RawJsonViewer,
+      'requiresData': true,
+      'description': 'View a JSON representation of the document. Intended mainly for development.'
     }
     // {
     //   'name': 'Result Trends',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonGroup, Button, Panel, Well } from 'react-bootstrap';
+import { ButtonGroup, Button, Panel, Well, Popover, OverlayTrigger } from 'react-bootstrap';
 import CheckboxGroup from 'react-checkbox-group';
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
@@ -99,6 +99,21 @@ export default class Filters extends React.Component {
     this.props.timeline.fit();
   };
 
+  popoverOverlay(description) {
+    const popover = (<Popover>
+                      {description}
+                    </Popover>);
+
+    return (
+              <OverlayTrigger
+                trigger="hover"
+                placement="bottom"
+                overlay={popover}>
+                <span>(?)</span>
+              </OverlayTrigger>
+            );
+  };
+
   render() {
     let eventDetails = (<Well bsSize="small" style={eventDetailStyles}>
       <div style={{float: 'right'}}>[ <a onClick={this.hideEventDetails.bind(this)}>close</a> ]</div>
@@ -106,15 +121,12 @@ export default class Filters extends React.Component {
       {this.convertObjectToListItems(this.props.eventDetails)}
     </Well>);
 
-    // <Well bsSize="small" style={eventDetailStyles}>{eventDetails}</Well>
-    // {this.state.showEventDetailModal ? eventDetails : null}
     return(
       <div>
         {this.state.showEventDetails ? eventDetails : null}
         <Panel header="Filters">
-          Search <input type="text" onChange={this.searchUpdated.bind(this)} />
-          <br />
-          <h5>Active Event Types</h5>
+          <strong>Search</strong> <input type="text" placeholder="Term (e.g. pain)" onChange={this.searchUpdated.bind(this)} /> {this.popoverOverlay('Filter events by search terms. Partial string matches will work. The event codes are indexed for search as well.')}
+          <h5>Sections {this.popoverOverlay('Toggle the display of sections by checking or unchecking.')}</h5>
           <CheckboxGroup name="fruits" value={this.state.visGroupArray} onChange={this.visGroupFilterChanged.bind(this)}>
             {
               Checkbox => (
@@ -126,7 +138,7 @@ export default class Filters extends React.Component {
               )
             }
           </CheckboxGroup>
-          <h5>Time Range</h5>
+          <h5>Time Range {this.popoverOverlay('Drag and select a window with your mouse to zoom in to a timeframe. Click off of the selection to reset.')}</h5>
           <svg id="brushChart" style={{width: '300px' }}></svg>
         </Panel>
       </div>
