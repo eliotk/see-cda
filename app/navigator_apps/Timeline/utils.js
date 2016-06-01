@@ -62,13 +62,36 @@ export function generateVisEvents(bbCcdaObj) {
     };
   });
 
+  var allergyEvents = bbCcdaObj.data.allergies.filter(function(item) {
+    item.content = item.allergen.name;
+    item.start = item.date_range.start;
+    item.end = item.date_range.end;
+    item.group_name = 'Allergies';
+
+    if(item.start) {
+      return item;
+    };
+  });
+
+  var resultEvents = bbCcdaObj.data.results.filter(function(item) {
+    item.content = item.name;
+    item.start = item.tests[0].date;
+    item.date = item.tests[0].date;
+    item.group_name = 'Results';
+
+    if(item.start) {
+      return item;
+    };
+  });
+
   return encounterEvents
           .concat(medicationEvents)
           .concat(problemEvents)
           .concat(procedureEvents)
           .concat(immunizationEvents)
-          .concat(immunizationDeclinesEvents);
-
+          .concat(immunizationDeclinesEvents)
+          .concat(allergyEvents)
+          .concat(resultEvents);
 }
 
 export function generateVisGroups(visEvents) {
