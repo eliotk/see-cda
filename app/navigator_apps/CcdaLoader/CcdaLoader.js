@@ -31,8 +31,9 @@ class CcdaLoader extends React.Component {
 
   submitCcda() {
     let ccdaString = this.refs.ccdaStringInput.refs.input.value;
+    debugger;
 
-    loadCcda(ccdaString);
+    this.loadCcda(ccdaString);
   };
 
   loadCcda(ccdaString) {
@@ -44,6 +45,7 @@ class CcdaLoader extends React.Component {
       this.props.store.trigger('ccda:load', bbCcdaObj);
     } catch (e) {
       console.error(e.message);
+      alert('There was a problem processing that CDA file. Check the dev tools console for debugging info.');
       // trigger alert
     };
   };
@@ -68,7 +70,7 @@ class CcdaLoader extends React.Component {
       <div style={{display: 'flex'}}>
         <form style={{width: '400px', borderRight: '1px solid #DDDDDD', paddingRight: '20px', marginRight: '20px'}}>
           <Input type="textarea" label="CCDA XML String" placeholder="Paste CCDA file contents here" ref="ccdaStringInput" style={{height: '200px'}} />
-          <Input type="file" label="File" help="Or select a file" />
+          <Input type="file" label="File" ref="ccdaFileInput" help="Or select a file"  />
           <Button bsStyle="primary" onClick={this.submitCcda.bind(this)}>Load</Button>
         </form>
         <div>
