@@ -1,19 +1,29 @@
-* being able to load in sample ccdas from ui
-* click/hover to show document info in above
-* cluster set spike?
+* add allergies section? [x]
+* add immunizations? [x]
+* add results to timeline?
+* add functional status?
+
+* disabled state for timeline, raw json viewer when a ccda isn't loaded
+* rm file upload
+
+* being able to load in sample ccdas from ui [x]
+* click/hover to show document info at top of app
 * question marks on tabs to view description
-* search in timline events
-* finish display of events
+* search in timeline events [x]
+* finish display of events [x]
 * update brush chart when groups/filters change
-* drag timeline, update selected in time range
 * reset all filters in timeline
 * disable mouse based zoom in timeline [x]
 * clicking off brush chart should restore original timeline date span [x]
 * remove y axis label on timeline brush [x]
 * test timeline w/ other ccdas [x]
-* supporting showing multiple ccda at same time?
 * add ability to show/hide timeline groups [x]
 * convert ccda xml string to bluebutton js [x]
-* add alergies section?
+* add allergies section?
 * add immunizations? [x]
 * add functional status?
+* add results to timeline?
+* put instruction right in app for how to use
+* mention that events are clickable
+* drag timeline, update selected in time range [tbd if this desirable]
+* supporting showing multiple ccda at same time? [tbd if this desirable]
