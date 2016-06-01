@@ -66,11 +66,12 @@ class CcdaLoader extends React.Component {
       return <Button data-key={key} onClick={this.loadSampleCcda.bind(this)}>{ccda.description}</Button>;
     });
 
+    // disabled file input for now <Input type="file" label="File" ref="ccdaFileInput" help="Or select a file"  />
+
     return(
       <div style={{display: 'flex'}}>
         <form style={{width: '400px', borderRight: '1px solid #DDDDDD', paddingRight: '20px', marginRight: '20px'}}>
           <Input type="textarea" label="C-CDA XML String" placeholder="Paste C-CDA file contents here" ref="ccdaStringInput" style={{height: '200px'}} />
-          <Input type="file" label="File" ref="ccdaFileInput" help="Or select a file"  />
           <Button bsStyle="primary" onClick={this.submitCcda.bind(this)}>Load</Button>
         </form>
         <div>
