@@ -1,11 +1,12 @@
+
+* add functional status events [x]
+
+* disabled state for timeline, raw json viewer when a ccda isn't loaded [x]
+
+* rm file upload for now [x]
 * add allergies section? [x]
 * add immunizations? [x]
-* add results to timeline?
-* add functional status?
-
-* disabled state for timeline, raw json viewer when a ccda isn't loaded
-* rm file upload
-
+* add results to timeline? [x]
 * being able to load in sample ccdas from ui [x]
 * click/hover to show document info at top of app
 * question marks on tabs to view description
@@ -19,10 +20,7 @@
 * test timeline w/ other ccdas [x]
 * add ability to show/hide timeline groups [x]
 * convert ccda xml string to bluebutton js [x]
-* add allergies section?
 * add immunizations? [x]
-* add functional status?
-* add results to timeline?
 * put instruction right in app for how to use
 * mention that events are clickable
 * drag timeline, update selected in time range [tbd if this desirable]
