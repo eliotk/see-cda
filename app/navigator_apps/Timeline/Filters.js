@@ -75,10 +75,15 @@ export default class Filters extends React.Component {
     this.setState({
       showEventDetails: false
     });
+
+    // prob want to signal back to app like this to handle in a store
+    // this.props.timelineStore.trigger('filters:eventDetailsClosed');
+    // but for now update timeline passed in as props
+    this.props.timeline.setSelection();
+    this.props.eventDetailsClosed();
   }
 
   searchUpdated(event) {
-    console.log('here');
     if(event.target.value) {
       const results = this.props.searchIndex.search(event.target.value);
 

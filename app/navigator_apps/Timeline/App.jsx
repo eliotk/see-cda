@@ -165,6 +165,12 @@ class App extends React.Component {
     });
   };
 
+  eventDetailsClosed() {
+    this.setState({
+      eventDetails: {}
+    });
+  };
+
   timelineClicked() {
     if (this.state.timeline.getSelection() < 1) {
       this.setState({
@@ -241,7 +247,8 @@ class App extends React.Component {
               eventDetails={this.state.eventDetails}
               timeline={this.state.timeline}
               searchIndex={this.state.searchIndex}
-              eventDataSet={this.state.eventDataSet} /></Col>
+              eventDataSet={this.state.eventDataSet}
+              eventDetailsClosed={this.eventDetailsClosed.bind(this)}/></Col>
           </Row>
         </Grid>
       </div>
