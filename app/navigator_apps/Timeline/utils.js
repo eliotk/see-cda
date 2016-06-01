@@ -84,6 +84,16 @@ export function generateVisEvents(bbCcdaObj) {
     };
   });
 
+  var functionalStatusesEvents = bbCcdaObj.data.functional_statuses.filter(function(item) {
+    item.content = item.name;
+    item.start = item.date;
+    item.group_name = 'Functional Statuses';
+
+    if(item.start) {
+      return item;
+    };
+  });
+
   return encounterEvents
           .concat(medicationEvents)
           .concat(problemEvents)
@@ -91,7 +101,8 @@ export function generateVisEvents(bbCcdaObj) {
           .concat(immunizationEvents)
           .concat(immunizationDeclinesEvents)
           .concat(allergyEvents)
-          .concat(resultEvents);
+          .concat(resultEvents)
+          .concat(functionalStatusesEvents);
 }
 
 export function generateVisGroups(visEvents) {
